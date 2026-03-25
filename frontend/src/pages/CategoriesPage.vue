@@ -40,8 +40,23 @@
         <v-card-title class="pa-4">{{ editingCat ? 'Editar' : 'Nova' }} Categoria</v-card-title>
         <v-divider />
         <v-card-text class="pa-4">
-          <v-text-field v-model="form.name" label="Nome *" autofocus />
-          <v-text-field v-model="form.color" label="Cor (hex)" placeholder="#6366f1" />
+          <v-text-field v-model="form.name" label="Nome *" autofocus class="mb-2" />
+
+          <div class="text-caption text-medium-emphasis mb-2">Cor da categoria</div>
+          <div class="d-flex align-center ga-3">
+            <div
+              class="color-preview"
+              :style="{ backgroundColor: form.color }"
+              @click="$refs.colorInput.click()"
+            >
+              <v-icon color="white" size="18">mdi-eyedropper</v-icon>
+            </div>
+            <div>
+              <div class="text-body-2">{{ form.color }}</div>
+              <div class="text-caption text-medium-emphasis">Clique para escolher</div>
+            </div>
+            <input ref="colorInput" type="color" v-model="form.color" class="hidden-input" />
+          </div>
         </v-card-text>
         <v-card-actions class="pa-4">
           <v-spacer />
@@ -76,14 +91,15 @@ const formLoading = ref(false)
 const deleteLoading = ref(false)
 const editingCat = ref(null)
 const deletingCat = ref(null)
-const form = ref({ name: '', color: '' })
+const form = ref({ name: '', color: '#E50914' })
+
 
 const loading = computed(() => categoryStore.loading)
 const categories = computed(() => categoryStore.categories)
 
 function openForm(cat = null) {
   editingCat.value = cat
-  form.value = { name: cat?.name || '', color: cat?.color || '' }
+  form.value = { name: cat?.name || '', color: cat?.color || '#E50914' }
   showForm.value = true
 }
 
@@ -118,3 +134,28 @@ async function handleDelete() {
 
 onMounted(() => categoryStore.fetchCategories())
 </script>
+
+<style scoped>
+.color-preview {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.color-preview:hover {
+  transform: scale(1.1);
+}
+
+.hidden-input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
+}
+</style>
