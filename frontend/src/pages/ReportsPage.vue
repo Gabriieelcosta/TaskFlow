@@ -9,7 +9,7 @@
       <v-col cols="12" md="4">
         <v-card class="text-center pa-4">
           <v-icon size="48" color="primary" class="mb-2">mdi-checkbox-marked-circle</v-icon>
-          <div class="text-h4 font-weight-bold">{{ summary.totalTasks ?? '—' }}</div>
+          <div class="text-h4 font-weight-bold">{{ summary.total ?? '—' }}</div>
           <div class="text-caption text-medium-emphasis">Total de Tarefas</div>
         </v-card>
       </v-col>
@@ -40,10 +40,10 @@
               v-for="item in summary.byStatus"
               :key="item.status"
               :title="statusLabel(item.status)"
-              :subtitle="`${item._count} tarefa(s)`"
+              :subtitle="`${item.count} tarefa(s)`"
             >
               <template #append>
-                <v-chip size="small" variant="tonal">{{ item._count }}</v-chip>
+                <v-chip size="small" variant="tonal">{{ item.count }}</v-chip>
               </template>
             </v-list-item>
           </v-list>
@@ -60,10 +60,10 @@
               v-for="item in summary.byPriority"
               :key="item.priority"
               :title="priorityLabel(item.priority)"
-              :subtitle="`${item._count} tarefa(s)`"
+              :subtitle="`${item.count} tarefa(s)`"
             >
               <template #append>
-                <v-chip size="small" variant="tonal">{{ item._count }}</v-chip>
+                <v-chip size="small" variant="tonal">{{ item.count }}</v-chip>
               </template>
             </v-list-item>
           </v-list>
@@ -83,12 +83,12 @@ const summary = ref({})
 
 const doneCount = computed(() => {
   const done = summary.value.byStatus?.find((s) => s.status === 'DONE')
-  return done?._count ?? '—'
+  return done?.count ?? '—'
 })
 
 const statusLabels = {
-  TODO: 'Pendente', IN_PROGRESS: 'Em andamento',
-  IN_REVIEW: 'Em revisão', DONE: 'Concluída', CANCELLED: 'Cancelada',
+  PENDING: 'Pendente', IN_PROGRESS: 'Em andamento',
+  DONE: 'Concluída', CANCELLED: 'Cancelada',
 }
 const priorityLabels = {
   LOW: 'Baixa', MEDIUM: 'Média', HIGH: 'Alta', URGENT: 'Urgente',

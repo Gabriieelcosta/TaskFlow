@@ -30,10 +30,29 @@
 </template>
 
 <script setup>
-const summaryCards = [
-  { label: 'Total de tarefas', value: '—', icon: 'mdi-checkbox-marked-circle', color: 'primary' },
-  { label: 'Em andamento',     value: '—', icon: 'mdi-play-circle',             color: 'info' },
-  { label: 'Concluídas',       value: '—', icon: 'mdi-check-circle',            color: 'success' },
-  { label: 'Vencidas',         value: '—', icon: 'mdi-alert-circle',            color: 'error' },
-]
+import { ref, computed, onMounted } from 'vue'
+import reportService from '@/services/reportService'
+
+const summary = ref({})
+
+const inProgressCount = computed(() => {
+  const item = summary.value.byStatus?.find((s) => s.status === 'IN_PROGRESS')
+  return item?.count ?? '—'
+})
+
+const doneCount = computed(() => {
+  const item = summary.value.byStatus?.find((s) => s.status === 'DONE')
+  return item?.count ?? '—'
+})
+
+const summaryCards = computed(() => [
+  { label: 'Total de tarefas', value: summary.value.total ?? '—',  icon: 'mdi-checkbox-marked-circle', color: 'primary' },
+  { label: 'Em andamento',     value: inProgressCount.value,        icon: 'mdi-play-circle',            color: 'info' },
+  { label: 'Concluídas',       value: doneCount.value,              icon: 'mdi-check-circle',           color: 'success' },
+  { label: 'Vencidas',         value: summary.value.overdue ?? '—', icon: 'mdi-alert-circle',           color: 'error' },
+])
+
+onMounted(async () => {
+  summary.value = await reportService.getSummary()
+})
 </script>
