@@ -26,7 +26,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // Só redireciona se havia token (sessão expirada)
+    // Se não havia token, é tentativa de login com credenciais erradas — deixa o erro chegar na página
+    const hadToken = !!localStorage.getItem('token')
+    if (error.response?.status === 401 && hadToken) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       window.location.href = '/login'
