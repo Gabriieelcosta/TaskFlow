@@ -111,6 +111,7 @@ const navItems = [
   { title: 'Tarefas', icon: 'mdi-checkbox-marked-circle', to: '/tasks' },
   { title: 'Categorias', icon: 'mdi-tag-multiple', to: '/categories' },
   { title: 'Relatórios', icon: 'mdi-chart-bar', to: '/reports' },
+  { title: 'Sobre', icon: 'mdi-information-outline', to: '/about' },
 ]
 
 // Título da página atual baseado na rota
