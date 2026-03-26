@@ -14,20 +14,38 @@
           <v-card-text class="pa-6" v-if="!editing">
             <div class="d-flex align-center justify-space-between mb-4">
               <TaskStatusChip :status="task.status" />
-              <v-tooltip text="Apenas o criador pode editar" :disabled="isOwner">
-                <template #activator="{ props }">
-                  <span v-bind="props">
-                    <v-btn
-                      variant="text"
-                      prepend-icon="mdi-pencil"
-                      :disabled="!isOwner"
-                      @click="editing = true"
-                    >
-                      Editar
-                    </v-btn>
-                  </span>
-                </template>
-              </v-tooltip>
+              <div class="d-flex ga-1">
+                <v-tooltip text="Apenas o criador pode editar" :disabled="isOwner">
+                  <template #activator="{ props }">
+                    <span v-bind="props">
+                      <v-btn
+                        variant="text"
+                        prepend-icon="mdi-pencil"
+                        :disabled="!isOwner"
+                        @click="editing = true"
+                      >
+                        Editar
+                      </v-btn>
+                    </span>
+                  </template>
+                </v-tooltip>
+
+                <v-tooltip text="Apenas o criador pode excluir" :disabled="isOwner">
+                  <template #activator="{ props }">
+                    <span v-bind="props">
+                      <v-btn
+                        variant="text"
+                        prepend-icon="mdi-delete"
+                        color="error"
+                        :disabled="!isOwner"
+                        @click="showConfirm = true"
+                      >
+                        Excluir
+                      </v-btn>
+                    </span>
+                  </template>
+                </v-tooltip>
+              </div>
             </div>
             <h2 class="text-h6 font-weight-bold mb-2">{{ task.title }}</h2>
             <p class="text-medium-emphasis">{{ task.description || 'Sem descrição.' }}</p>
@@ -63,6 +81,14 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <ConfirmDialog
+      v-model="showConfirm"
+      message="Tem certeza que deseja excluir esta tarefa? Esta ação não pode ser desfeita."
+      :loading="deleteLoading"
+      @confirm="handleDelete"
+      @cancel="showConfirm = false"
+    />
   </div>
 </template>
 
@@ -76,6 +102,7 @@ import userService from '@/services/userService'
 import TaskStatusChip from '@/components/tasks/TaskStatusChip.vue'
 import TaskForm from '@/components/tasks/TaskForm.vue'
 import LoadingSpinner from '@/components/ui/LoadingSpinner.vue'
+import ConfirmDialog from '@/components/ui/ConfirmDialog.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -87,6 +114,8 @@ const isOwner = computed(() => task.value?.ownerId === authStore.user?.id)
 
 const editing = ref(false)
 const formLoading = ref(false)
+const deleteLoading = ref(false)
+const showConfirm = ref(false)
 const users = ref([])
 
 const loading = computed(() => taskStore.loading)
@@ -100,6 +129,16 @@ async function handleUpdate(data) {
     editing.value = false
   } finally {
     formLoading.value = false
+  }
+}
+
+async function handleDelete() {
+  deleteLoading.value = true
+  try {
+    await taskStore.deleteTask(route.params.id)
+    router.push('/tasks')
+  } finally {
+    deleteLoading.value = false
   }
 }
 

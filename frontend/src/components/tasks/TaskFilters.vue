@@ -15,7 +15,7 @@
         </v-col>
 
         <!-- Filtro de status -->
-        <v-col cols="6" md="3">
+        <v-col cols="6" md="2">
           <v-select
             v-model="localFilters.status"
             :items="statusOptions"
@@ -43,13 +43,27 @@
         </v-col>
 
         <!-- Filtro de categoria -->
-        <v-col cols="12" md="3">
+        <v-col cols="6" md="2">
           <v-select
             v-model="localFilters.categoryId"
             :items="categories"
             item-title="name"
             item-value="id"
             placeholder="Categoria"
+            hide-details
+            clearable
+            @update:model-value="emitFilters"
+          />
+        </v-col>
+
+        <!-- Filtro de responsável -->
+        <v-col cols="6" md="2">
+          <v-select
+            v-model="localFilters.assigneeId"
+            :items="users"
+            item-title="name"
+            item-value="id"
+            placeholder="Responsável"
             hide-details
             clearable
             @update:model-value="emitFilters"
@@ -65,6 +79,7 @@ import { ref } from 'vue'
 
 defineProps({
   categories: { type: Array, default: () => [] },
+  users: { type: Array, default: () => [] },
 })
 
 const emit = defineEmits(['update:filters'])
@@ -74,6 +89,7 @@ const localFilters = ref({
   status: null,
   priority: null,
   categoryId: null,
+  assigneeId: null,
 })
 
 const statusOptions = [

@@ -8,7 +8,7 @@
     </div>
 
     <!-- Filtros -->
-    <TaskFilters :categories="categories" @update:filters="onFilterChange" />
+    <TaskFilters :categories="categories" :users="users" @update:filters="onFilterChange" />
 
     <!-- Loading -->
     <LoadingSpinner v-if="loading" text="Carregando tarefas..." />

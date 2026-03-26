@@ -32,48 +32,48 @@
 
       <!-- Tarefas por status -->
       <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="pa-4">Por Status</v-card-title>
-          <v-divider />
-          <v-list density="compact">
-            <v-list-item
-              v-for="item in summary.byStatus"
-              :key="item.status"
-              :title="statusLabel(item.status)"
-              :subtitle="`${item.count} tarefa(s)`"
-            >
-              <template #prepend>
-                <v-icon :color="statusColor(item.status)" size="10">mdi-circle</v-icon>
-              </template>
-              <template #append>
-                <v-chip size="small" variant="tonal" :color="statusColor(item.status)">{{ item.count }}</v-chip>
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-card>
+        <v-expansion-panels variant="accordion">
+          <v-expansion-panel>
+            <v-expansion-panel-title class="font-weight-bold">Por Status</v-expansion-panel-title>
+            <v-expansion-panel-text class="pa-0">
+              <v-list density="compact">
+                <v-list-item
+                  v-for="item in summary.byStatus"
+                  :key="item.status"
+                  :title="statusLabel(item.status)"
+                  :subtitle="`${item.count} tarefa(s)`"
+                >
+                  <template #append>
+                    <v-chip size="small" variant="tonal" :color="statusColor(item.status)">{{ item.count }}</v-chip>
+                  </template>
+                </v-list-item>
+              </v-list>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
 
       <!-- Tarefas por prioridade -->
       <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="pa-4">Por Prioridade</v-card-title>
-          <v-divider />
-          <v-list density="compact">
-            <v-list-item
-              v-for="item in summary.byPriority"
-              :key="item.priority"
-              :title="priorityLabel(item.priority)"
-              :subtitle="`${item.count} tarefa(s)`"
-            >
-              <template #prepend>
-                <v-icon :color="priorityColor(item.priority)" size="10">mdi-circle</v-icon>
-              </template>
-              <template #append>
-                <v-chip size="small" variant="tonal" :color="priorityColor(item.priority)">{{ item.count }}</v-chip>
-              </template>
-            </v-list-item>
-          </v-list>
-        </v-card>
+        <v-expansion-panels variant="accordion">
+          <v-expansion-panel>
+            <v-expansion-panel-title class="font-weight-bold">Por Prioridade</v-expansion-panel-title>
+            <v-expansion-panel-text class="pa-0">
+              <v-list density="compact">
+                <v-list-item
+                  v-for="item in sortedByPriority"
+                  :key="item.priority"
+                  :title="priorityLabel(item.priority)"
+                  :subtitle="`${item.count} tarefa(s)`"
+                >
+                  <template #append>
+                    <v-chip size="small" variant="tonal" :color="priorityColor(item.priority)">{{ item.count }}</v-chip>
+                  </template>
+                </v-list-item>
+              </v-list>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
     </v-row>
   </div>
@@ -91,6 +91,13 @@ const doneCount = computed(() => {
   const done = summary.value.byStatus?.find((s) => s.status === 'DONE')
   return done?.count ?? '—'
 })
+
+const priorityOrder = { URGENT: 0, HIGH: 1, MEDIUM: 2, LOW: 3 }
+const sortedByPriority = computed(() =>
+  [...(summary.value.byPriority || [])].sort(
+    (a, b) => (priorityOrder[a.priority] ?? 99) - (priorityOrder[b.priority] ?? 99)
+  )
+)
 
 const statusLabels = {
   PENDING: 'Pendente', IN_PROGRESS: 'Em andamento',
