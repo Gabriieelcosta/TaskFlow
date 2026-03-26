@@ -7,9 +7,9 @@
 
             <!-- Logo e título -->
             <div class="text-center mb-8">
-              <v-icon size="56" color="primary">mdi-movie-play</v-icon>
+              <v-icon size="56" color="primary">mdi-lightning-bolt</v-icon>
               <h1 class="text-h4 font-weight-bold mt-2 text-white">
-                CLAQUETE
+                TaskFlow
               </h1>
               <p class="text-caption text-medium-emphasis mt-1">
                 Gestão de tarefas para quem produz entretenimento

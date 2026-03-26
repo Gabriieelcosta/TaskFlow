@@ -6,8 +6,8 @@
 
       <!-- Logo -->
       <v-list-item
-        prepend-icon="mdi-movie-play"
-        title="CLAQUETE"
+        prepend-icon="mdi-lightning-bolt"
+        title="TaskFlow"
         nav
         class="py-4"
       />
@@ -117,7 +117,7 @@ const navItems = [
 // Título da página atual baseado na rota
 const currentPageTitle = computed(() => {
   const item = navItems.find((i) => route.path.startsWith(i.to))
-  return item?.title || 'Claquete'
+  return item?.title || 'TaskFlow'
 })
 
 // Avatar gerado a partir das iniciais do nome
