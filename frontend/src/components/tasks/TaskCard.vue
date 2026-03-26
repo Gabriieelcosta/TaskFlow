@@ -21,33 +21,33 @@
     </v-card-item>
 
     <v-card-text class="pt-0 flex-grow-1">
-      <!-- Descrição -->
-      <p v-if="task.description" class="text-body-2 text-medium-emphasis mb-3 text-truncate">
-        {{ task.description }}
-      </p>
+      <div class="info-grid">
+        <template v-if="task.description">
+          <span class="info-label">Descrição</span>
+          <span class="info-value text-medium-emphasis">{{ task.description }}</span>
+        </template>
 
-      <!-- Rodapé do card -->
-      <div class="d-flex align-center flex-wrap ga-2">
-        <!-- Categoria -->
-        <v-chip
-          v-if="task.category"
-          size="x-small"
-          variant="tonal"
-          :color="task.category.color || 'primary'"
-        >
-          {{ task.category.name }}
-        </v-chip>
+        <template v-if="task.category">
+          <span class="info-label">Categoria</span>
+          <v-chip size="x-small" variant="tonal" :color="task.category.color || 'primary'">
+            {{ task.category.name }}
+          </v-chip>
+        </template>
 
-        <!-- Data de vencimento -->
-        <v-chip v-if="task.dueDate" size="x-small" variant="text" :color="isOverdue ? 'error' : 'default'">
-          <v-icon start size="12">mdi-calendar</v-icon>
-          {{ formatDate(task.dueDate) }}
-        </v-chip>
+        <template v-if="task.dueDate">
+          <span class="info-label">Prazo</span>
+          <span class="info-value" :class="isOverdue ? 'text-error' : 'text-medium-emphasis'">
+            <v-icon size="12" class="mr-1" :color="isOverdue ? 'error' : ''">mdi-calendar-outline</v-icon>{{ formatDate(task.dueDate) }}
+          </span>
+        </template>
 
-        <v-spacer />
-
-        <!-- Responsável -->
-        <v-avatar v-if="task.assignee" size="24" :image="assigneeAvatar" />
+        <template v-if="task.assignee">
+          <span class="info-label">Responsável</span>
+          <div class="d-flex align-center ga-1">
+            <v-avatar size="16" :image="assigneeAvatar" />
+            <span class="info-value text-medium-emphasis">{{ task.assignee.name }}</span>
+          </div>
+        </template>
       </div>
     </v-card-text>
   </v-card>
@@ -98,5 +98,25 @@ function formatDate(date) {
 }
 .task-card--overdue {
   border-left: 3px solid rgb(var(--v-theme-error));
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 12px;
+  align-items: center;
+}
+
+.info-label {
+  font-size: 11px;
+  color: rgba(var(--v-theme-on-surface), 0.4);
+  white-space: nowrap;
+}
+
+.info-value {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
