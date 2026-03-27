@@ -13,16 +13,15 @@ async function reportRoutes(fastify) {
           description: 'Resumo geral do sistema',
           type: 'object',
           properties: {
-            total: { type: 'integer', description: 'Total de tarefas' },
-            completed: { type: 'integer', description: 'Tarefas concluidas' },
-            overdue: { type: 'integer', description: 'Tarefas vencidas' },
+            total: { type: 'integer' },
+            overdue: { type: 'integer' },
             byStatus: {
               type: 'array',
               items: {
                 type: 'object',
                 properties: {
                   status: { type: 'string' },
-                  _count: { type: 'object', properties: { id: { type: 'integer' } } },
+                  count: { type: 'integer' },
                 },
               },
             },
@@ -32,13 +31,22 @@ async function reportRoutes(fastify) {
                 type: 'object',
                 properties: {
                   priority: { type: 'string' },
-                  _count: { type: 'object', properties: { id: { type: 'integer' } } },
+                  count: { type: 'integer' },
+                },
+              },
+            },
+            byCategory: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  categoryId: { type: 'string' },
+                  count: { type: 'integer' },
                 },
               },
             },
           },
         },
-        401: { description: 'Nao autorizado' },
       },
     },
   }, getSummary)

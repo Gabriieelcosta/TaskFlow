@@ -18,10 +18,10 @@ async function categoryRoutes(fastify) {
               id: { type: 'string' },
               name: { type: 'string' },
               color: { type: 'string' },
+              userId: { type: 'string' },
             },
           },
         },
-        401: { description: 'Nao autorizado' },
       },
     },
   }, getAll)
@@ -48,9 +48,9 @@ async function categoryRoutes(fastify) {
             id: { type: 'string' },
             name: { type: 'string' },
             color: { type: 'string' },
+            userId: { type: 'string' },
           },
         },
-        401: { description: 'Nao autorizado' },
       },
     },
   }, create)
@@ -80,11 +80,9 @@ async function categoryRoutes(fastify) {
             id: { type: 'string' },
             name: { type: 'string' },
             color: { type: 'string' },
+            userId: { type: 'string' },
           },
         },
-        401: { description: 'Nao autorizado' },
-        403: { description: 'Somente o criador pode editar' },
-        404: { description: 'Categoria nao encontrada' },
       },
     },
   }, update)
@@ -98,12 +96,6 @@ async function categoryRoutes(fastify) {
       params: {
         type: 'object',
         properties: { id: { type: 'string' } },
-      },
-      response: {
-        204: { description: 'Categoria excluida com sucesso' },
-        401: { description: 'Nao autorizado' },
-        403: { description: 'Somente o criador pode excluir' },
-        404: { description: 'Categoria nao encontrada' },
       },
     },
   }, remove)

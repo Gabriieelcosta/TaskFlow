@@ -19,7 +19,6 @@ async function userRoutes(fastify) {
             createdAt: { type: 'string', format: 'date-time' },
           },
         },
-        401: { description: 'Nao autorizado' },
       },
     },
   }, getProfile)
@@ -43,7 +42,6 @@ async function userRoutes(fastify) {
             },
           },
         },
-        401: { description: 'Nao autorizado' },
       },
     },
   }, getAll)
@@ -71,7 +69,6 @@ async function userRoutes(fastify) {
             email: { type: 'string' },
           },
         },
-        401: { description: 'Nao autorizado' },
       },
     },
   }, updateProfile)

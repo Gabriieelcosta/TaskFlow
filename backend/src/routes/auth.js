@@ -19,7 +19,7 @@ async function authRoutes(fastify) {
           description: 'Usuario cadastrado com sucesso',
           type: 'object',
           properties: {
-            token: { type: 'string', description: 'Token JWT' },
+            token: { type: 'string' },
             user: {
               type: 'object',
               properties: {
@@ -30,7 +30,6 @@ async function authRoutes(fastify) {
             },
           },
         },
-        400: { description: 'Dados invalidos ou e-mail ja cadastrado' },
       },
     },
   }, register)
@@ -52,7 +51,7 @@ async function authRoutes(fastify) {
           description: 'Login realizado com sucesso',
           type: 'object',
           properties: {
-            token: { type: 'string', description: 'Token JWT' },
+            token: { type: 'string' },
             user: {
               type: 'object',
               properties: {
@@ -63,7 +62,6 @@ async function authRoutes(fastify) {
             },
           },
         },
-        401: { description: 'Credenciais invalidas' },
       },
     },
   }, login)
