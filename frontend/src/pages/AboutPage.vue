@@ -1,18 +1,18 @@
 <template>
   <div>
-    <h1 class="text-h5 font-weight-bold mb-2">Sobre o Claquete</h1>
+    <h1 class="text-h5 font-weight-bold mb-2">Sobre o TaskFlow</h1>
     <p class="text-medium-emphasis mb-6">Guia rápido de uso do sistema</p>
 
     <!-- O que é -->
     <v-card class="mb-4 pa-2">
       <v-card-item>
         <template #prepend>
-          <v-icon color="primary" size="32">mdi-movie-play</v-icon>
+          <v-icon color="primary" size="32">mdi-lightning-bolt</v-icon>
         </template>
-        <v-card-title>O que é o Claquete?</v-card-title>
+        <v-card-title>O que é o TaskFlow?</v-card-title>
       </v-card-item>
       <v-card-text>
-        Claquete é um gerenciador de tarefas colaborativo desenvolvido para equipes de produção.
+        TaskFlow é um gerenciador de tarefas colaborativo desenvolvido para equipes de produção.
         Todos os usuários cadastrados compartilham o mesmo ambiente — qualquer um pode ver todas
         as tarefas e categorias, mas <strong>somente o criador pode editar ou excluir</strong> o
         que criou.

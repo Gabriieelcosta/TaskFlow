@@ -17,6 +17,8 @@ async function create(userId, data) {
     ...data,
     description: data.description || null,
     dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : null,
+    assigneeId: data.assigneeId || null,
+    categoryId: data.categoryId || null,
   }
   const task = await taskRepository.create({ ...cleanData, ownerId: userId })
 
@@ -33,7 +35,10 @@ async function update(userId, taskId, data) {
 
   const cleanData = {
     ...data,
+    description: data.description !== undefined ? (data.description || null) : undefined,
     dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : null,
+    assigneeId: data.assigneeId || null,
+    categoryId: data.categoryId || null,
   }
   const updated = await taskRepository.update(taskId, cleanData)
 

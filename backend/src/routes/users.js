@@ -8,6 +8,18 @@ async function userRoutes(fastify) {
       tags: ['Users'],
       summary: 'Obter perfil do usuário autenticado',
       security: [{ bearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Perfil do usuario',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            email: { type: 'string' },
+            createdAt: { type: 'string', format: 'date-time' },
+          },
+        },
+      },
     },
   }, getProfile)
 
@@ -17,6 +29,20 @@ async function userRoutes(fastify) {
       tags: ['Users'],
       summary: 'Listar todos os usuários',
       security: [{ bearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Lista de usuarios do sistema',
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              name: { type: 'string' },
+              email: { type: 'string' },
+            },
+          },
+        },
+      },
     },
   }, getAll)
 
@@ -31,6 +57,17 @@ async function userRoutes(fastify) {
         properties: {
           name: { type: 'string', minLength: 2 },
           password: { type: 'string', minLength: 6 },
+        },
+      },
+      response: {
+        200: {
+          description: 'Perfil atualizado com sucesso',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            email: { type: 'string' },
+          },
         },
       },
     },

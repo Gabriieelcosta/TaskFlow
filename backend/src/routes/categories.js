@@ -8,6 +8,21 @@ async function categoryRoutes(fastify) {
       tags: ['Categories'],
       summary: 'Listar categorias do usuário',
       security: [{ bearerAuth: [] }],
+      response: {
+        200: {
+          description: 'Lista de categorias',
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              name: { type: 'string' },
+              color: { type: 'string' },
+              userId: { type: 'string' },
+            },
+          },
+        },
+      },
     },
   }, getAll)
 
@@ -23,6 +38,18 @@ async function categoryRoutes(fastify) {
         properties: {
           name: { type: 'string', minLength: 1 },
           color: { type: 'string', default: '#6366f1' },
+        },
+      },
+      response: {
+        201: {
+          description: 'Categoria criada com sucesso',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            color: { type: 'string' },
+            userId: { type: 'string' },
+          },
         },
       },
     },
@@ -43,6 +70,18 @@ async function categoryRoutes(fastify) {
         properties: {
           name: { type: 'string' },
           color: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          description: 'Categoria atualizada com sucesso',
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            color: { type: 'string' },
+            userId: { type: 'string' },
+          },
         },
       },
     },

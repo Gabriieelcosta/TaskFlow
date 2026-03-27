@@ -1,4 +1,6 @@
 const { AppError } = require('../utils/errors')
+const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library')
+
 
 function translateValidationError(message) {
   if (!message) return 'Dados inválidos'
@@ -38,6 +40,24 @@ async function errorHandler(error, request, reply) {
       error: 'Erro de validação',
       message: translated,
     })
+  }
+
+  // Erros do Prisma (violação de FK, registro não encontrado, etc.)
+  if (error instanceof PrismaClientKnownRequestError) {
+    if (error.code === 'P2003') {
+      return reply.status(400).send({
+        statusCode: 400,
+        error: 'Referência inválida',
+        message: 'Um dos campos selecionados (categoria ou responsável) não existe mais. Recarregue a página e tente novamente.',
+      })
+    }
+    if (error.code === 'P2025') {
+      return reply.status(404).send({
+        statusCode: 404,
+        error: 'Not Found',
+        message: 'Registro não encontrado',
+      })
+    }
   }
 
   // Erros do JWT (@fastify/jwt)

@@ -16,6 +16,7 @@ async function authRoutes(fastify) {
       },
       response: {
         201: {
+          description: 'Usuario cadastrado com sucesso',
           type: 'object',
           properties: {
             token: { type: 'string' },
@@ -43,6 +44,23 @@ async function authRoutes(fastify) {
         properties: {
           email: { type: 'string', format: 'email' },
           password: { type: 'string' },
+        },
+      },
+      response: {
+        200: {
+          description: 'Login realizado com sucesso',
+          type: 'object',
+          properties: {
+            token: { type: 'string' },
+            user: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+                name: { type: 'string' },
+                email: { type: 'string' },
+              },
+            },
+          },
         },
       },
     },
